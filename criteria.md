@@ -23,7 +23,7 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
 **Why this target:**
-We want to generate and provide users with accurate results.
+We want to generate and provide users with accurate results. We may also not have enough documentation to generate 5 correct answers all the time
 
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
@@ -35,7 +35,7 @@ We want to generate and provide users with accurate results.
 Every answer the system produces names at least one source document.
 
 **Why this target:**
-This generates credibility for everything that they say and also gives us a way to trace back.
+This generates credibility for everything that they say and also gives us a way to trace back. Knowing that every provided answer has a source will create more confidence when the user uses it for something else.
 
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
@@ -64,7 +64,7 @@ This is to ensure that we are not providing information that we don't have knowl
 ## 4. Something about your chunks
 
 Chunks should be concise with as little details needed to provide a correct answer and support it.
-Maybe 1-2 sentences. Max 3. We don't wan't to overflow the user with information.
+Maximum of 3 sentences. We don't wan't to overflow the user with information.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -85,8 +85,8 @@ We don't want to overflow the user with irrelevant data that they may not need.
 
 ## 5. Your choice
 
-Ask user a question at the end of the response for things that could give them more information if they want.
-Maybe if they asked about printing cost. Then you can followup with "would you like to know where to access printers"
+Ask user a question at the end of every response for things that could give them more information if they want.
+If they asked about printing cost. Then you can followup with "would you like to know where to access printers"
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -98,7 +98,7 @@ Maybe if they asked about printing cost. Then you can followup with "would you l
 
 **Why this target:**
 
-## One of the questions ask about how much to print. But the user may not know where to access a printer or relevant information. Asking them if they would like to know more will give them all the information they need.
+One of the questions ask about how much to print. But the user may not know where to access a printer or relevant information. Asking them if they would like to know more will give them all the information they need.
 
 ---
 
