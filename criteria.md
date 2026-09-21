@@ -23,7 +23,7 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
 **Why this target:**
-We want to generate and provide users with accurate results. We may also not have enough documentation to generate 5 correct answers all the time
+We want to generate and provide users with accurate results. We may also not have enough documentation to generate 5 correct answers all the time so this accepts that retrieval may miss relevant information. So retrieval might not generate an accurate answer even though the answer exists in the documents in my questions.
 
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
@@ -54,7 +54,7 @@ in at least 4 of 5 tries.
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
 
 **Why this target:**
-This is to ensure that we are not providing information that we don't have knowledge of.
+This is to ensure that we are not providing information that we don't have knowledge of. I expect 4 unrelated questions to be refused because my first criteria says at least 4 of my 5 test will contain the answer
 
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
