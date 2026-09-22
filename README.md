@@ -1,12 +1,33 @@
 # The Unofficial Guide
 
+<!-- Replace this line with your name and which corpus you picked. -->
+
 Yaw Kessey-Ankomah — `campus_life`
+
+> **This file is your submission.** Fill it in as you go — most sections get
+> written during the milestone that produces them, not at the end.
+>
+> How the starter works, and every command you'll need, is in `RUNNING.md`.
+> Leave that file alone.
+>
+> **Paste everything as text.** No screenshots, no video. A typed table gets
+> full credit; a picture of the same table gets none.
+>
+> Delete these instruction blocks as you replace them. The `<!-- -->` comments
+> are notes to you and don't show up when the page renders — you can leave them
+> or remove them.
 
 ---
 
 # Unit 1
 
 ## What This Does
+
+<!-- Three or four sentences. Which corpus you picked, and the kinds of
+     questions your system answers. Write it for someone who has never seen
+     this repo.
+
+     Milestone 5. -->
 
 I selected the `campus_life` corpus of short campus posts. This command-line guide answers questions covered by those posts, including courses, campus work hours, and meal-plan details. It retrieves relevant chunks and uses them to generate an answer with a source document. If no chunk is close enough to the question, the relevance gate refuses to answer.
 
@@ -18,7 +39,26 @@ I selected the `campus_life` corpus of short campus posts. This command-line gui
 
 Campus posts are short but can cover several topics, so I chose smaller groups of complete sentences to keep the retrieved material focused. The original 800-character windows kept all 88 posts whole; the new strategy produces 141 chunks. I start with no body-sentence overlap to avoid repeating the same facts, while retaining the title to identify the topic. This limits retrieved text, not the length of the final answer. The simple sentence splitter preserves decimal prices but may split abbreviations incorrectly, and sentence groups can still depend on context in another chunk.
 
+<!-- What about YOUR documents made you pick these numbers? Short posts and
+     long sectioned guides don't want the same chunking, and "800 seemed
+     reasonable" earns nothing. Point at something you noticed when you read
+     the documents in Milestone 1.
+
+     If you changed your mind partway through, say so and say why. That's worth
+     more than pretending you got it right first time.
+
+     Milestone 3. -->
+
 ## Sample Chunks
+
+<!-- Five chunks, pasted as text. Label each one and name the file it came from
+     AND the function that produced it — the grader checks your code against
+     what you claim here.
+
+     `python app.py chunks -n 5` prints all three for you. Copy them straight
+     across.
+
+     Milestone 3. -->
 
 **Chunk 1** — source: `admin_add_drop_deadline.txt#0` — produced by: `chunker.py::split_documents`
 
@@ -62,6 +102,9 @@ Machines take $1.50 wash, $1.25 dry, coin or card. There are eight washers and s
 
 ## Sample Answer
 
+<!-- One complete question and answer, pasted as text, with the source line
+     visible. Milestone 4. -->
+
 **Question:** How many times can I change my meal plan tier?
 
 **Answer:**
@@ -75,6 +118,15 @@ Source: admin_meal_plan_changes.txt
 **My relevance cutoff:** `0.6`
 
 With the rebuilt sentence-based index, the five in-corpus best distances range from 0.2302 to 0.3938, while the five out-of-scope distances range from 0.8236 to 0.8859. The existing cutoff of 0.6 falls in the gap, so I kept it: all five in-corpus questions pass the gate and all five out-of-scope questions are refused. These measurements support the cutoff for these ten questions; they do not guarantee the same result for every possible question.
+
+<!-- The number you set in config.py, and how you got there.
+
+     You ran five questions your corpus covers and the five in OUT_OF_SCOPE
+     that it clearly doesn't, and wrote down the best distance for each. What
+     did those two groups look like? Where was the gap? Put the actual numbers
+     here — the table below wants all ten rows.
+
+     Milestone 4. -->
 
 | Question | In corpus? | Best distance |
 |---|---|---|
@@ -91,11 +143,25 @@ With the rebuilt sentence-based index, the five in-corpus best distances range f
 
 ## How I Used AI
 
+<!-- Two specific moments. For each: what you asked for, what came back, and
+     what you changed about it.
+
+     "I asked Claude to write the chunking function from my notes. It ignored
+     the overlap, so I added that myself" is the level of detail we're after.
+     "I used AI to help me code" is not.
+
+     Milestone 5. -->
+
 **1.**
 I asked Codex to help me write `split_documents()` using my three-sentence chunk limit, without editing the file for me. It suggested grouping up to three body sentences, repeating the document title for context, and using zero body-sentence overlap. I pasted the code myself, but my saved version had missing lines and indentation errors. With Codex's debugging feedback, I corrected the indentation, added the missing import, document loop, and chunk-list initialization, and returned the new chunks instead of calling the fallback. Codex then ran the preview successfully, producing 141 chunks instead of the starter's 88.
 
 **2.**
 I ran retrieval for my meal-plan and withdrawal questions, then asked Codex to run the remaining three campus questions and the five out-of-scope questions and record the distances in my README. The combined results showed in-corpus best distances of 0.2302–0.3938 and out-of-scope distances of 0.8236–0.8859. Codex recommended keeping the existing 0.6 cutoff because it fell between those groups and filled the blank table with the measured results. I left that recommendation unchanged. I then asked Codex to run the meal-plan question and add the actual answer and source to the Sample Answer section.
+
+<!-- ── Stretch features ─────────────────────────────────────────────────────
+     Doing one? Say so here BEFORE you start. A feature this README never
+     claims earns nothing.
+     ───────────────────────────────────────────────────────────────────────── -->
 
 ---
 
