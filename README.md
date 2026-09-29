@@ -272,6 +272,18 @@ You can add a course through the end of the second week. Dropping is a longer wi
 
      Milestone 3. -->
 
+### Criterion 5 — missing follow-up questions
+
+**Stage: generation.** None of the five in-corpus answers ended with a follow-up question in any of the three runs (0/5 each run, or 0/15 answers overall). For example, the meal-plan answer gave the limit of one change and cited `admin_meal_plan_changes.txt`, then stopped.
+
+**Mechanism:** In `generate.py`, `answer_from_chunks()` passes `GROUNDING_INSTRUCTION` to the model. That instruction asks for a brief answer based only on the documents and a source filename, but never asks for a follow-up question. `build_prompt()` also asks only for an answer and the file used. The follow-up requirement exists in `criteria.md`, but that file is not included in this answer-generation prompt. The system therefore does not communicate the required behavior to the model. This explains the missing instruction; an explicit instruction still needs testing to see whether the model follows it consistently.
+
+**Pattern:** The same omission occurred across all five topics and all three runs, even though answer-bearing chunks were retrieved. This points to a shared generation instruction rather than a topic-specific retrieval failure. Criteria 1–4 met their measured targets, so criterion 5 is the only baseline miss to diagnose.
+
+**Improvement to test in Milestone 4:** Add an explicit instruction to end in-corpus answers with one relevant follow-up question about information supported by the retrieved documents, while keeping the answer grounded and retaining its source citation. Then rerun the full evaluation to measure whether the follow-up rate improves without losing the other targets.
+
+
+
 ## The Improvement
 
 **What I changed:**
