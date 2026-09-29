@@ -246,11 +246,11 @@ You can add a course through the end of the second week. Dropping is a longer wi
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunks contain the answer | MET | All five questions retrieved an answer-bearing chunk, this exceeds target of 4/5 |
+| 2 | Every answer names a source | MET | All five answers named a source in each run|
+| 3 | Gate stops out-of-corpus questions | MET | All 5 out-of-scope questions refused |
+| 4 | Maximum three sentences per chunk | MET | All chunks contained at most three body sentences |
+| 5 | Every response ends with a follow-up question | MISSED | None of the 5 answers contained the followup question in any of the runs  |
 
 ## Diagnoses
 
