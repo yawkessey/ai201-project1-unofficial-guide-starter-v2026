@@ -158,6 +158,12 @@ I asked Codex to help me write `split_documents()` using my three-sentence chunk
 **2.**
 I ran retrieval for my meal-plan and withdrawal questions, then asked Codex to run the remaining three campus questions and the five out-of-scope questions and record the distances in my README. The combined results showed in-corpus best distances of 0.2302–0.3938 and out-of-scope distances of 0.8236–0.8859. Codex recommended keeping the existing 0.6 cutoff because it fell between those groups and filled the blank table with the measured results. I left that recommendation unchanged. I then asked Codex to run the meal-plan question and add the actual answer and source to the Sample Answer section.
 
+**3. Unit 2 — evaluating the baseline.**
+I asked Codex to use my saved three-run evaluation to complete the before table. It distinguished the scorer's expected-phrase passes from the five acceptance criteria, inspected the retrieved chunks, and checked the three-sentence limit across all 141 chunks. It added the table and supporting output, labeling the later chunk inspection separately from my original generation runs. I filled in the Verdicts table using its suggestions. The results showed that none of the 15 baseline answers included my required follow-up question.
+
+**4. Unit 2 — diagnosis, improvement, and reflection.**
+I asked Codex to help complete the diagnosis and measured improvement. It found that the generation prompt never requested a follow-up, wrote the diagnosis, added one follow-up instruction in `generate.py`, and ran 15 uncached answers. It then checked the actual responses instead of treating the scorer's passes as proof that every criterion passed. Although all 15 answers included a follow-up, one put a citation after the question, so Codex recorded 4/5, 5/5, and 5/5 for the strict ending requirement and kept the verdict MISSED. The implemented prompt change was left as tested, and my original criteria were preserved. I also asked Codex to draft these final reflections and document its assistance; the remaining fixes described below are proposals, not changes already tested.
+
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -345,9 +351,18 @@ Would you like to know when the term project for CS 340 Databases is recommended
 
      Milestone 5. -->
 
+Criterion 5 is still missed under the strict requirement that every answer end with a follow-up question. The after results were 4/5, 5/5, and 5/5. In the first CS 340 run, the model asked a relevant question but placed `(course_cs_340.txt)` after it. The generation stage therefore did not consistently follow the requested output order, even though the prompt explicitly put citations before the final question.
+
+My next step would be to test a fixed response structure with the answer and sources first and the follow-up last, then rerun the same five questions three times and check all five criteria again. I stopped after one measured prompt change so this submission preserves a clear comparison of that change against the baseline. I am reporting the remaining miss rather than making additional unmeasured changes. Criteria 1–4 met the measured targets, but this small question set does not establish that the system will work for every campus question.
+
+
 ## What I'd Do Differently
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
 
      Milestone 5. -->
+
+Next time, I would write criterion 5 with an explicit scope and response format before testing: “For all five in-corpus test questions in each of three runs, the answer ends with one relevant follow-up question about information supported by the retrieved documents, with any source citations before that question.” This keeps the 5/5 target while making citation placement and the treatment of out-of-scope refusals clear. My original wording said “every response,” while the evaluation counted the five in-corpus answers; I would resolve that scope before collecting results next time. I have not replaced the original criterion or rescored this experiment using the proposed wording.
+
+I would also decide how to measure each criterion before running the evaluation. A phrase such as “15” appearing in an answer does not establish that retrieval found the answer, that a source was cited, or that the response ended with a follow-up. Separate checks would make those differences easier to evaluate consistently.
