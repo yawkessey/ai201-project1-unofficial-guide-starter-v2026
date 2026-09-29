@@ -286,9 +286,9 @@ You can add a course through the end of the second week. Dropping is a longer wi
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** Added one rule to `generate.py::GROUNDING_INSTRUCTION`: end in-corpus answers with one relevant follow-up question supported by the supplied documents, with the source citation before the question.
 
-**Why I picked it:**
+**Why I picked it:** Criterion 5 failed in all 15 baseline answers because the generation instructions never requested a follow-up. This prompt change directly addresses that diagnosis. The corpus, model, chunker, retrieval settings, gate, and original criteria remain unchanged.
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
@@ -300,13 +300,33 @@ You can add a course through the end of the second week. Dropping is a longer wi
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks contain at most three body sentences | Maximum 3 sentences | Max 3 (141/141) | Max 3 (141/141) | Max 3 (141/141) | MET |
+| 5. Every answer ends with a follow-up question | 5 of 5 | 4/5 | 5/5 | 5/5 | MISSED |
 
-**Did it help?**
+Evidence: [full after evaluation](results/run_2026-09-29_0008_after.md), produced by `run_eval.py::main` on September 29 with caching off: 15 actual model calls, three per question. The evaluation used CPU execution for the same embedding model, as in the supplemental before inspection. Each run's retrieved source set and best distance match the baseline. Answer-bearing chunks remain those in [the chunk evidence](results/before_chunk_evidence.md); rechecking the unchanged chunker gives 141/141 chunks within three body sentences. The deterministic gate again refused 5/5 questions, measured by `run_eval.py::check_out_of_scope`.
+
+Manual inspection of the 15 answers found a source filename and a relevant follow-up in every answer. To apply criterion 5 strictly, however, the follow-up must be at the end: the CS 340 answer in run 1 places a citation after its question. That answer fails the ending requirement. The scorer's phrase-match passes do not override this verdict.
+
+**Actual passing output — meal-plan question, run 1:** produced by `generate.py::answer_from_chunks` and recorded by `run_eval.py::main`.
+
+```text
+You can change your meal plan tier once, within the first ten days of the semester (admin_meal_plan_changes.txt).
+
+Would you like to know what happens financially when you downgrade or upgrade your meal plan?
+```
+
+**Actual remaining miss — CS 340 question, run 1:** same producing functions.
+
+```text
+You should expect to spend 6 hours a week early in the course, and 15 hours a week in the last three weeks when the project lands (course_cs_340.txt).
+
+Would you like to know when the term project for CS 340 Databases is recommended to be started? (course_cs_340.txt)
+```
+
+**Did it help?** Yes, but it did not fully meet criterion 5. Strict end-of-answer follow-ups improved from 0/5, 0/5, 0/5 before to 4/5, 5/5, 5/5 after (14/15 overall). All 15 answers now include a follow-up, but one has a citation after it. Because the 5/5 target must hold in every run, criterion 5 remains MISSED. Criteria 1–4 retain their measured baseline results. This is one measured prompt improvement, not a claim that the system is fully fixed.
 
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit

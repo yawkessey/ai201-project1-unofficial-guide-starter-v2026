@@ -279,7 +279,8 @@ Rules:
 - Use only the information in the documents below. Do not use anything you know from elsewhere.
 - If the documents don't cover the question, say you don't have enough information. Do not guess.
 - Name the document your answer came from, using the filename given in each excerpt.
-- Be brief. Two or three sentences is usually enough."""
+- Be brief. Two or three sentences is usually enough.
+- For an in-corpus answer, end with exactly one relevant follow-up question offering more information supported by the provided documents. Put the source citation before this final question. Do not invent facts or offer information absent from the documents."""
 
 
 def build_prompt(question: str, results) -> str:
